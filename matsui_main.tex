@@ -1,0 +1,126 @@
+%\Documentclass[12pt]{jreport}
+\documentclass[uplatex, 12pt]{ujbook}
+%%
+%%  卒業論文 スタイルファイル 2026年度版
+%%                       T. MATSUZAKI
+%%  $Lastupdate: Tue Oct  6 15:06:48 2026 $
+%%
+%\begin{figure}[htpb]
+% \begin{center}
+%  \includegraphics[width=8cm,height=4cm,clip,keepaspectratio]{syouroku.eps}
+% \end{center}
+% \caption{図3.1}
+% \label{fig:FIG1}
+%\end{figure}
+
+\usepackage{jgraduate20}     % jgraduate20.styを読み込む
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{makeidx}          % 索引作成用
+\usepackage{ascmac}	% required for `\screen' (yatex added)
+\usepackage{color}
+\usepackage{ulem}
+%\usepackage{listings,jlisting}
+\usepackage{listings}
+%\usepackage{jvlisting}
+% 前設定
+
+\doubleside{1}                % 1:両面印刷/0:片面印刷
+
+\title{一般家庭用Wi-FiルータのCSIを用いたWi-Fiセンシング}
+\authorid{2311170016}
+\author{松井　聖斗}
+\university{近畿大学}                 % 大学名 (近畿大学, etc.)
+\department{産業理工学部}             % 学部名 (産業理工学部, etc.)
+\major{電気電子工学科}                % 学科名 (電気電子工学科, etc.)
+%\date{\today}
+\date{令和9年1月9日}
+\year{令和八年度}
+\teacherpos{教授}
+\teacher{松崎　隆哲}
+\coauthornum{1}                       % 共同研究者の人数 (3人まで対応)
+\cfauthid{2511170001}                % 共同研究者1の学籍番号
+\cfauth{川野　義了}                    % 共同研究者1の名前
+\csauthid{05-9-82-004}                % 共同研究者2の学籍番号
+\csauth{前田 前田}                    % 共同研究者2の名前
+\ctauthid{06-9-82-001}                % 共同研究者3の学籍番号
+\ctauth{飯塚 飯塚}                    % 共同研究者3の名前
+
+\begin{document}
+\maketitle                    % 表紙
+\cleardoublepageskip          % 両面印刷の場合表紙の裏は白紙にします
+\tableofcontents              % 目次 (↓ *のついている項目)
+\listoffigures                % 図目次
+\listoftables                 % 表目次
+\cleardoublepageskip          % 目次と本文を分離・両面印刷の場合表紙の裏は白紙にします
+\pagenumbering{arabic}        % ページ番号をアラビア数字に
+\newpage
+
+\chapter{はじめに}
+\section{背景}
+近年、独居高齢者世帯の増加や高齢化の進行、防犯・安全意識の高まりを背景として、屋内での状態把握、いわゆる「見守り」の重要性が高まっている。見守りを実現する主流な手段としてカメラ型・センサー型の機器があるが、室内への常時設置には次の三つの課題がある。
+
+第一に、プライバシー侵害のリスクである。浴室や寝室などのプライベート空間への設置が困難である。
+第二に、死角と環境依存のリスクである。夜間や暗所では精度が低下し、湯舟などは死角になりやすい。
+第三に、設置コストのリスクである。新規機器の購入が必要であり、全室をカバーするには多数の機器を設置しなければならない。実際、介護家族を対象とした調査では、見守りサービスに約半数が関心を示す一方で、利用率は約5％にとどまっている。
+
+
+\section{本論文の構成}
+
+\chapter{Wi-Fiセンシングの概要}
+\section{Wi-Fiについて}
+\section{OFDMについて}
+\section{ルータについて}
+\section{CSIについて}
+\subsection{CSIの仕組み}
+\subsection{ルータを用いたCSI取得方法}
+
+\chapter{実験}
+\section{実験目的}
+\section{使用デバイス}
+\section{実験環境}
+\section{実験条件}
+
+\chapter{送受信機の配置の違いによる評価}
+
+
+\chapter{複数日データの評価}
+
+\chapter{予備実験}
+\section{Wi-Fiの使用チャネルの違いによる評価}
+\section{ドリルを取り外した際の精度評価}
+
+\chapter{考察}
+
+\chapter{おわりに}
+
+
+\acknowledgment
+これまでお世話になったひとに対する感謝の弁を書きましょう。
+
+両親への謝辞も忘れずに！
+
+%なお、作成した卒論ファイルは責任を持って親御さんにお渡ししますので、安心してください。
+%予算の都合上、上製本はできませんのであしからず。
+
+\begin{thebibliography}{9}
+%% 参考文献は最低10冊以上書きましょう
+\bibitem{CEFOS} 日下部 茂, 富安 洋史, 村上 和彰, 谷口 秀夫, 雨宮 真人,
+``並列分散オペレーティングシステムCEFOS(Communication-Execution Fusion
+        OS),''
+信学技報, Vol.99, No.251, pp.25-32 (1999).
+
+\bibitem{kate1}
+カテゴリー1 並列分散処理アーキテクチャ技術 成果報告書,
+並列・分散処理研究推進機構, 平成 9 年 3 月.
+
+\bibitem{MUSCAT} 鳥居, 近藤, 本村, 西, 小長谷, ``オンチップ制御並列プロ
+        セッサMUSCATの提案, ''情報処理学会論文誌, Vol.39, No.6,
+ pp.1622-1631 (1998).
+\end{thebibliography}
+\end{document}
+
+%%% Local Variables:
+%%% mode: yatex
+%%% TeX-master: t
+%%% End:
