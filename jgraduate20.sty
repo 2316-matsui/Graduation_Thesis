@@ -1,0 +1,453 @@
+%% 卒論用スタイルファイル 2020年度版  シリーズ1
+%%      jgraduate20.sty for pLaTeX2e
+%%                                  T. MATSUZAKI
+%%
+%%  $Lastupdate: Fri Nov  6 11:37:51 2020 $
+%%
+%%  (jbookを両面印刷として利用)
+%%
+%% 使い方
+%%
+%% \documentclass[uplatex, 12pt]{ujbook}   % 12ptでujbookを使って下さい。
+%% \usepackage{jgraduate20}    % jgraduate20.styを読み込む
+%% \usepackage{makeidx}          % 索引作成用
+%%
+%% % 前設定
+%%
+%% \doubleside{1}                % 1:両面印刷/0:片面印刷
+%%
+%% \title{}                      % 論文題目 (ほげほげの研究, etc.)
+%% \authorid{}                   % 著者学籍番号
+%% \author{}                     % 著者氏名 (名無 権兵衛, etc.)
+%% \university{}                 % 大学名 (近畿大学, etc.)
+%% \department{}                 % 学部名 (産業理工学部, etc.)
+%% \major{}                      % 学科名 (電気電子工学科, etc.)
+%%\authorid{05-9-82-002}
+%%\date{平成19年1月31日}                % 提出日
+%%\teacherpos{講師}                     % 指導教員の職種(教授、助教授、講師)
+%%\teacher{松崎 隆哲}                   % 指導教員の名前
+%%\year{平成18年度}                     % 卒業年度
+%%\coauthornum{3}                       % 共同研究者の人数 (3人まで対応)
+%%\cfauthid{05-9-82-003}                % 共同研究者1の学籍番号
+%%\cfauth{福田 福田}                    % 共同研究者1の名前
+%%\csauthid{05-9-82-004}                % 共同研究者2の学籍番号
+%%\csauth{前田 前田}                    % 共同研究者2の名前
+%%\ctauthid{06-9-82-001}                % 共同研究者3の学籍番号
+%%\ctauth{飯塚 飯塚}                    % 共同研究者3の名前
+%%
+%% \begin{document}              % ここから本文は始まる
+%%
+%% \maketitle                    % 表紙
+%%
+%% \begin{abstract}              %
+%%  概要                         % 概要
+%% \end{abstract}                %
+%%
+%% \tableofcontents              % 目次 (↓ *のついている項目)
+%% \listoffigures                % 図目次
+%% \listoftables                 % 表目次
+%% \newpage                      % 改ページ
+%% \pagenumbering{arabic}        % ページ番号をアラビア数字に
+%%
+%% \chapter{}                    % 章 (*)
+%% \section{}                    % 節 (*)
+%% \subsection{}                 % 項 (*)
+%% \subsubsection{}              % 目
+%% \paragraph{}                  % 段落 
+%% \subparagraph{}               % 小段落
+%%
+%% \acknowledgment               % 謝辞 (*)
+%%
+%% % ここに文献リストを入れる。文献リストの書き方は人それぞれ。
+%% % (ベタ書き, 半分計算機にやらせる, 全部計算機任せ, etc.)
+%%
+%% \appendix                     % ここから付録(もしあれば)
+%% \chapter{}                    % 付録の章 (*)
+%%
+%% \printindex                   % 索引
+%%
+%% \end{document}                % 本文終わり
+
+% 用紙サイズ - A4
+\setlength{\paperheight}{297mm} % \pageheight for LaTeX 2.09
+\setlength{\paperwidth}{210mm}  % \pagewidth  for LaTeX 2.09
+
+% 一段組のパラメータ - 縦方向
+\setlength{\topmargin}{-2.4mm} % 23mm - 1in
+\setlength{\headheight}{5mm}
+\setlength{\headsep}{5mm}
+\setlength{\topskip}{8mm}
+\setlength{\footskip}{10mm}
+%\setlength{\footheight}{10mm} % for LaTeX 2.09
+\setlength{\marginparpush}{5mm}
+\setlength{\textheight}{234mm}
+% textheight = pageheight(297) - o_topmargin(23) - headheight*(5) -
+%              headsep*(5) - footskip*(10) - bottommargin(20)
+
+% 一段組のパラメータ - 横方向
+\setlength{\oddsidemargin}{-3.4mm}  % 22mm - 1in
+\setlength{\evensidemargin}{-3.4mm} % 22mm - 1in
+\setlength{\marginparsep}{0mm}
+\setlength{\marginparwidth}{0mm}
+\setlength{\textwidth}{166mm}
+% textwidth = pagewidth(210) - leftmargin(22) - maginparsep(0) - 
+%             marginparwidth(0) - rightmargin(22)
+
+% リスト環境のパラメータ - 縦方向
+\setlength{\partopsep}{0mm}
+\setlength{\topsep}{0mm}
+\setlength{\parskip}{0mm}
+\setlength{\parsep}{0mm}
+\setlength{\itemsep}{0mm}
+
+% リスト環境のパラメータ - 横方向
+\setlength{\leftmargin}{50mm}
+\setlength{\labelwidth}{10zw}
+\setlength{\labelsep}{1zw}
+\setlength{\itemindent}{2zw}
+\setlength{\listparindent}{1zw} % どうやら、使われていないらしい
+\setlength{\rightmargin}{0mm}
+
+% ページレイアウト
+\def\ps@jgraduate{%
+   \def\@oddhead{\underline{\hbox to \textwidth{~~\bf\rightmark\hfil%
+        \thepage~~}}}%
+   \def\@evenhead{
+      \ifnum \@doubleside=1
+         \underline{\hbox to \textwidth{~~\bf\thepage\hfil%
+              \leftmark~~}}
+      \else
+         \@oddhead%
+      \fi
+  }%
+   \def\@oddfoot{$\overline{\hbox to \textwidth{\hfil%
+         \@university\ \@department\ \@major~~}}$}%
+   \def\@evenfoot{
+      \ifnum \@doubleside=1
+          $\overline{\hbox to \textwidth{~~%
+               \@university\ \@department\ \@major \hfil}}$%
+      \else
+         \@oddfoot%
+      \fi
+   }
+   \let\@mkboth\markboth
+   \def\chaptermark##1{\markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+         \if@mainmatter
+            \@chapapp\thechapter\@chappos\hskip1zw
+         \fi
+      \fi
+     ##1}{}}%
+  \def\sectionmark##1{\markright{%
+     \ifnum \c@secnumdepth >\z@ \thesection\hskip1zw\fi
+     ##1}}%
+}
+
+% 表紙
+\def\mtitle{
+ \begin{titlepage}%
+  \null%
+  \vfil%
+  \begin{center}%
+   {\fontsize{36}{40pt}\selectfont 修 \ \ 士 \ \ 論 \ \ 文}\vskip 2em minus 1em%
+   {\fontsize{24}{26pt}\selectfont \@date}\vskip 26em minus 1em%
+   {\Large\@university} \vskip 1em minus 1em%
+   {\Large\@department} \vskip 1em minus 1em%
+   {\Large\@major} \vskip 2em minus 1em%
+   {\Large\@authorid \ \ 
+   \@author\par}
+  \end{center}%
+  \vfil%
+ \end{titlepage}%
+}
+\def\m2title{
+ \begin{titlepage}%
+  \null%
+  \vfil%
+  \begin{center}%
+   {\fontsize{36}{40pt}\selectfont 修 \ \ 士 \ \ 論 \ \ 文}\vskip 10em minus 1em%
+   {\Large\@title\par}\vskip 2em minus 1em%
+   {\Large\@etitle\par}\vskip 14em minus 1em%
+  \end{center}%
+  \vfil%
+ \end{titlepage}%
+}
+\def\maketitle{
+ \begin{titlepage}%
+  \null%
+  \vfil%
+  \begin{center}%
+   {\fontsize{20}{24pt}\selectfont \@year \ \ 卒業論文}\vskip 4em minus 1em%
+   {\fontsize{24}{26pt}\selectfont \@title}\vskip 16em minus 1em%
+   {\fontsize{20}{24pt}\selectfont \@university\@department\@major} \vskip 6em minus 1em%
+   {\fontsize{20}{24pt}\selectfont 作成者 \ \ \@authorid \ \ \@author\par}\vskip 1em minus 1em%
+   {\fontsize{20}{24pt}\selectfont \@date\par} \vskip 4em minus 1em%
+   {\fontsize{20}{24pt}\selectfont 指導教員 \ \ \@teacherpos \ \ \@teacher\par}\vskip 4em minus 1em%
+   \ifnum \@coauthornum=3
+   {\fontsize{20}{24pt}\selectfont
+   \begin{tabular}{lll}
+    共同研究者 \ \ & \@cfauthid \ \ & \@cfauth\\
+                   & \@csauthid & \@csauth\\
+                   & \@ctauthid & \@ctauth\\
+   \end{tabular}
+   }
+   \else
+      \ifnum \@coauthornum=2
+      {\fontsize{20}{24pt}\selectfont
+       \begin{tabular}{lll}
+      共同研究者 \ \ & \@cfauthid \ \ & \@cfauth\\
+                 & \@csauthid & \@csauth\\
+      \end{tabular}
+      \vskip 2em
+      }
+      \else
+      \ifnum \@coauthornum=1
+      {\fontsize{20}{24pt}\selectfont
+       \begin{tabular}{lll}
+      共同研究者 \ \ & \@cfauthid \ \ & \@cfauth\\
+      \end{tabular}
+      }
+      \vskip 4em
+      \else
+      \vskip 6em
+      \fi
+   \fi
+\fi   
+  \end{center}%
+  \vfil%
+ \end{titlepage}%
+}
+\def\cleardoublepageskip{
+  \ifnum \@doubleside=1
+     \cleardoublepage
+  \else
+     \clearpage
+  \fi
+}
+% 概要
+%\renewenvironment{abstract}{%
+%  \if@twocolumn
+%    \section*{\abstractname}%
+%    \begin{quotation}%
+%  \else
+%    \@mkboth{\abstractname}{\abstractname}%
+%    \vspace*{50\p@}%
+%    {%
+%     \parindent \z@ \raggedright
+%     \reset@font\huge\bfseries
+%     \interlinepenalty\@M
+%     \center{\abstractname}\par\nobreak
+%     \vskip 40\p@
+%    }%
+%    \begin{quotation}%
+%  \fi}{\end{quotation}}
+
+
+% 目次
+\def\tableofcontents{%
+ \pagenumbering{roman}
+ \if@twocolumn\@restonecoltrue\onecolumn
+ \else\@restonecolfalse\fi
+ \chaptersec*{\contentsname%
+   \@mkboth{\contentsname}{\contentsname}}%
+ \@starttoc{toc}%
+ \if@restonecol\twocolumn\fi
+% \pagenumbering{arabic}
+}
+\def\listoffigures{%
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chaptersec*{\listfigurename
+  \@mkboth{\listfigurename}{\listfigurename}}%
+  \@starttoc{lof}%
+  \if@restonecol\twocolumn\fi
+}
+\def\listoftables{%
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chaptersec*{\listtablename
+  \@mkboth{\listtablename}{\listtablename}}%
+  \@starttoc{lot}%
+  \if@restonecol\twocolumn\fi
+}
+% 章関係
+%   天に ページ番号と章の内容(番号無し)+ライン
+%   地に 所属 + ライン
+\def\chaptersec{%
+% \if@openright\clearpage\else\clearpage\fi
+%  \thispagestyle{plain}%
+ \if@openright\clearpage\else\clearpage\fi
+ \global\@topnum\z@
+ \@afterindenttrue
+ \secdef\@chaptersec\@schapter
+}
+%
+% 章関係
+%   章の最初のページは、天と地にラインをひかない。
+%   ページ番号は、地におく
+\def\chapter{%
+  \if@openright{
+      \ifnum \@doubleside=1
+          \cleardoublepage
+      \else
+          \clearpage      
+      \fi
+  }
+  \else\clearpage\fi
+%  \if@openright\clearpage\else\clearpage\fi
+  \thispagestyle{plain}%
+  \global\@topnum\z@
+  \@afterindenttrue
+  \secdef\@chapter\@schapter}
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {%
+   \parindent \z@ \raggedright
+   \reset@font\huge\bfseries
+   \ifnum \c@secnumdepth >\m@ne
+    \@chapapp\thechapter\@chappos
+    \par\nobreak
+    \vskip 20\p@
+   \fi
+   \interlinepenalty\@M
+   #1\par\nobreak
+   \vskip 40\p@
+  }%
+}
+\def\@makeschapterhead#1{%
+ \vspace*{50\p@}%
+ {%
+  \parindent \z@ \raggedright
+  \reset@font\huge\bfseries
+  \interlinepenalty\@M
+  #1\par\nobreak
+  \vskip 40\p@
+ }%
+}
+
+% 索引
+\renewenvironment{theindex}
+  {\newpage\if@twocolumn\@restonecolfalse\else\@restonecoltrue\fi%
+   \columnseprule\z@ \columnsep 35\p@%
+   \twocolumn[\chapter*{\indexname}]%
+   \addcontentsline{toc}{chapter}{\indexname}
+   \@mkboth{\indexname}{\indexname}%
+   \parindent\z@%
+   \parskip\z@ \@plus .3\p@\relax%
+   \let\item\@idxitem%
+  }
+  {\if@restonecol\onecolumn\else\clearpage\fi}
+
+
+% 謝辞
+\def\acknowledgementname{\def\@cknowledgementname}
+\let\acknowledgmentname\acknowledgementname
+\acknowledgementname{謝辞}
+
+\def\acknowledgement{%
+ \typeout{\@cknowledgementname}%
+% \chaptersec*{\@cknowledgementname}%
+ \chapter*{\@cknowledgementname}%
+ \@mkboth{\@cknowledgementname}{\@cknowledgementname}%
+ \addcontentsline{toc}{chapter}{\@cknowledgementname}%
+}
+\let\acknowledgment\acknowledgement
+
+% 参考文献
+\def\bibname{参考文献}
+\renewenvironment{thebibliography}[1]
+%{\chaptersec*{\bibname}%
+{\chapter*{\bibname}%
+   \@mkboth{\bibname}{\bibname}%
+   \addcontentsline{toc}{chapter}{\bibname}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty\clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+
+%%%%%%%%%
+%%% 章と節のセパレータを'-'に変更
+%%\renewcommand{\thepart}{\@Roman\c@part}
+%%\renewcommand{\thechapter}{\@arabic\c@chapter}
+%%\renewcommand{\thesection}{\thechapter-\@arabic\c@section}
+%%\renewcommand{\thesubsection}{\thesection-\@arabic\c@subsection}
+%%\renewcommand{\thesubsubsection}{%
+%%   \thesubsection-\@arabic\c@subsubsection}
+%%\renewcommand{\theparagraph}{%
+%%   \thesubsubsection-\@arabic\c@paragraph}
+%%\renewcommand{\thesubparagraph}{%
+%%   \theparagraph-\@arabic\c@subparagraph}
+%%\renewcommand{\thefigure}{%
+%%  \ifnum\c@chapter>\z@\thechapter-\fi\@arabic\c@figure}
+%%\renewcommand{\thetable}{%
+%%  \ifnum\c@chapter>\z@\thechapter-\fi\@arabic\c@table}
+%%%%%%%%%
+
+
+
+% その他
+\def\yen{Y\llap=}
+\def\doubleside{\def\@doubleside}
+\def\year{\def\@year}
+\def\etitle{\def\@etitle}
+\def\authorid{\def\@authorid}
+\def\university{\def\@university}
+\def\department{\def\@department}
+\def\major{\def\@major}
+\def\teacherpos{\def\@teacherpos}
+\def\teacher{\def\@teacher}
+\def\coauthornum{\def\@coauthornum}
+\def\cfauthid{\def\@cfauthid}
+\def\cfauth{\def\@cfauth}
+\def\csauthid{\def\@csauthid}
+\def\csauth{\def\@csauth}
+\def\ctauthid{\def\@ctauthid}
+\def\ctauth{\def\@ctauth}
+   
+%%%%%%%%%
+%%% 図表のキャプションから':'を取り除く
+% \@makecaption を \makeatletterを使って再定義
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \iftdir\sbox\@tempboxa{#1\hskip1zw#2}%
+    \else\sbox\@tempboxa{#1 #2}%
+  \fi
+  \ifdim \wd\@tempboxa >\hsize
+    \iftdir #1\hskip1zw#2\relax\par
+      \else #1 #2\relax\par\fi
+  \else
+    \global \@minipagefalse
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+%%%%%%%%%
+
+% 初期設定
+\etitle{\tt\yen etitle\{Etitle\}}
+\year{\tt\yen year\{平成 年度\}}
+\authorid{\tt\yen authorid\{学籍番号\}}
+\university{\tt\yen university\{大学名\}}
+\department{\tt\yen department\{学部/研究科名\}}
+\major{\tt\yen major\{学科/課程 専攻名\}}
+\teacherpos{\tt\yen teacherpos\{先生の職種\}}
+\teacher{\tt\yen teacher\{先生の名前\}}
+\cfauthid{\tt\yen cfauthid\{学籍番号\}}
+\csauthid{\tt\yen csauthid\{学籍番号\}}
+\ctauthid{\tt\yen ctauthid\{学籍番号\}}
+\pagestyle{jgraduate}
+\def\baselinestretch{1.3}
+
