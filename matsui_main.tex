@@ -21,6 +21,8 @@
 \usepackage{color}
 \usepackage{ulem}
 \usepackage{amsmath}
+\usepackage{booktabs}   % 見やすい罫線（\toprule, \midrule, \bottomrule）
+\usepackage{array}      % 列幅指定（p{...}）の拡張
 %\usepackage{listings,jlisting}
 \usepackage{listings}
 %\usepackage{jvlisting}
@@ -176,8 +178,44 @@ ESP32などのマイコンを送信機とする場合は、マイコン自身が
 この目的のため、人間の動きと比べ動きが常に一定であるNCフライス盤のドリルの回転数を識別対象とし、送信機にルータとマイコンを用いた場合の分類精度を比較する。
 さらに予備評価として、次の3点に対応した追加実験も行った。
 
+ドリル回転時の電磁波ノイズによって判別できない事例がないか
+
+取得したデータは、その条件でしか使えないのか
+
+使用する機器によって精度差が出るのか、また機器ごとに何が異なるのか
+\newpage
 \section{使用デバイス}
+\begin{table}[tb]
+  \centering
+  \caption{使用デバイスの仕様}
+  \label{tab:devices}
+  \small
+  \begin{tabular}{l l l l l l}
+    \toprule
+    デバイス & 用途 & マイコン & フラッシュ & 無線機能 \\
+    \midrule
+    AtomS3 & 送信機・受信機 & ESP32-S3 & 8\,MB & 2.4\,GHz Wi-Fi 4  \\
+    アンテナ付きESP32S3 & 送信機・受信機 & ESP32-S3 & 8\,MB & 2.4\,GHz Wi-Fi 4  \\
+    Aterm WX3000HP & 送信機 & --- & --- & 2.4/5\,GHz Wi-Fi 6  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\newpage
 \section{実験環境}
+\begin{table}[tb]
+  \centering
+  \caption{距離条件と配置}
+  \label{tab:layout}
+  \begin{tabular}{l c c c c}
+    \toprule
+    条件 & 送信機の距離 & 受信機の距離 & 送信機の高さ & 受信機の高さ \\
+    \midrule
+    near-near & 0.5\,m & 0.3\,m & 0.69\,m & 0.83\,m \\
+    far-near  & 5.9\,m & 0.3\,m & 1.1\,m  & 0.83\,m \\
+    far-far   & 5.9\,m & 1.0\,m & 1.1\,m  & 0.80\,m \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 \section{実験条件}
 
 \chapter{送受信機の配置の違いによる評価}
