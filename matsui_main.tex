@@ -84,14 +84,10 @@
   \label{fig:result}
 \end{figure}
 
-
-
-これらの課題を補完する技術として、Wi-FiのCSI（Channel State Information）を用いたセンシングが注目されている。
+これらの課題を解決できる可能性のある技術として、Wi-FiのCSI（Channel State Information）を用いたセンシングが注目されている。
 CSIは、Wi-Fi通信における伝送路特性を示すデータであり、送受信機間の空間の揺らぎを電波の振幅・位相の変化として捉えることができる。
 この手法は、ほぼすべての家庭に既に設置されているWi-Fiルータを活用できるため、カメラ型に比べて導入コストの面で有利であり、映像を扱わないためプライバシーへの懸念も少ない。
-
 本研究の目的は、家庭用Wi-Fiルータがどの程度の精度でセンシング可能かを明らかにすることである。
-
 
 \section{先行研究}
 先行研究では、Wi-FiのCSIを用いたセンシングについて、機器構成や取得方法の両面から多くの検討が行われている。
@@ -131,22 +127,18 @@ Wi-Fiは、IEEE 802.11規格に基づく無線LANの通信方式であり、家�
 本研究で使用した機器が対応する規格は次の通りである。
 AtomS3およびアンテナ付きESP32S3は、2.4GHz帯のIEEE 802.11n（Wi-Fi 4）に対応する。
 ルータ（Aterm WX3000HP）は、2.4GHz帯および5GHz帯のIEEE 802.11ax（Wi-Fi 6）に対応する。
-
-また、同時に送受信できる信号の系統数（ストリーム数）も機器によって異なる。
-アンテナ付きESP32S3は1ストリームの送受信（1×1 SISO）であり、ルータは2ストリームの送受信（2×2 MIMO）に対応する。
 \section{OFDMについて}
 Wi-Fiでは、OFDM（Orthogonal Frequency Division Multiplexing：直交周波数分割多重）と呼ばれる変調方式が用いられている。
 OFDMは、送信するデータを多数の狭い帯域の搬送波（サブキャリア）に分割し、それらを同時に送信する方式である。
 各サブキャリアの周波数は互いに直交するように配置されているため、周波数が重なっていても互いに干渉せず、周波数を効率よく利用できる。
 送信データは、まずIQ平面上の点として表される複素数 a+jb（jは虚数単位）に変換される。
 たとえば4値の位相変調では、2ビットの組（00, 01, 10, 11）がIQ平面上の4点に対応する。この複素数を各サブキャリアに割り当て、64本のサブキャリアを重ね合わせることでOFDM信号が構成される。
-OFDMは、周波数ごとに伝送路の特性を扱えるという特徴がある。この特徴により、周波数ごとの伝送路の状態を表す情報（次節のCSI）を、サブキャリア単位で得ることができる。
+OFDMは、周波数ごとに伝送路の特性を扱えるという特徴がある。この特徴により、周波数ごとの伝送路の状態を表す情報（次節のCSI）を、サブキャリア単位で得ることができる。は、空間を伝搬する間に壁や家具、人体などで反射・散乱・減衰し、複数の経路を経由して受信機に届く。
+そのため、受信信号は送信信号に比べて振幅が減衰し、位相がずれる。CSIは、この送信信号から受信信号への変化を、サブキャリアごとに表したものである。
 \section{CSIについて}
 \subsection{CSIの仕組み}
 CSI（Channel State Information：チャネル状態情報）とは、Wi-Fi通信における伝送路特性を示すデータである。
-送信された信号は、空間を伝搬する間に壁や家具、人体などで反射・散乱・減衰し、複数の経路を経由して受信機に届く。
-そのため、受信信号は送信信号に比べて振幅が減衰し、位相がずれる。CSIは、この送信信号から受信信号への変化を、サブキャリアごとに表したものである。
-CSIは複素数の行列として取得され、その要素 $h_{ij}$ は次のように実部 $a_{ij}$ と虚部 $b_{ij}$ で表される。
+送信された信号SIは複素数の行列として取得され、その要素 $h_{ij}$ は次のように実部 $a_{ij}$ と虚部 $b_{ij}$ で表される。
 \begin{equation}
 h_{ij} = a_{ij} + j·b_{ij}
 \end{equation}
@@ -156,7 +148,7 @@ h_{ij} = a_{ij} + j·b_{ij}
 位相：\theta &= \tan^{-1}\left(\frac{b_{ij}}{a_{ij}}\right)
 \end{align}
 
-本研究で用いるESP32では、1パケットあたりのCSIとして、タイムスタンプ、パケット番号、および64組のサブキャリアの虚部と実部が、この順に出力される。なお、先頭と末尾の一部のサブキャリアは通信に使用されないため、値が0になる。
+本研究で用いるESP32では、1パケットあたりのCSIとして、タイムスタンプ、パケット番号、および64組のサブキャリアの虚部と実部が、この順に出力される。
 \subsection{CSIのセンシングへの利用}
 伝送路上の物体や人が動くと、反射・散乱の状態が変化し、CSIの振幅と位相が変化する。
 この変化を観測することで、送受信機間の空間で生じた動きを推定できる。これがCSIを用いたWi-Fiセンシングの原理である。
@@ -178,7 +170,7 @@ ESP32などのマイコンを送信機とする場合は、マイコン自身が
 \section{実験目的}
 本研究の目的は、家庭用Wi-Fiルータがどの程度の精度でセンシング可能かを明らかにすることである。
 この目的のため、人間の動きと比べ動きが常に一定であるNCフライス盤のドリルの回転数を識別対象とし、送信機にルータとマイコンを用いた場合の分類精度を比較する。
-さらに予備評価として、次の4点に対応した追加実験も行った。
+さらに予備評価として、次の3点に対応した追加実験も行った。
 
 ・チャネルの違いによって精度に差が出るのか
 
@@ -209,22 +201,7 @@ ESP32などのマイコンを送信機とする場合は、マイコン自身が
 ルータには、改造を行っていない市販品をそのまま用いた。
 ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機としてCSIを取得した。
 また、回転体としてNCフライス盤のドリルを用いた。
-追加実験（実験5）では、別の機械としてHOZAN K-21（3段ベルト変速で2100、4500、6200rpm）を用いた。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\linewidth]{AtomS3.png}
-  \caption{AtomS3}
-  \label{fig:result}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\linewidth]{esp32s3.png}
-  \caption{esp32s3}
-  \label{fig:result}
-\end{figure}
-
+追加実験（実験4）では、別の機械としてHOZAN K-21（3段ベルト変速で2100、4500、6200rpm）を用いた。
 
 \begin{table}[htbp]
   \centering
@@ -242,6 +219,33 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
   \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{AtomS3.png}
+  \caption{AtomS3}
+  \label{fig:result}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{esp32s3.png}
+  \caption{esp32s3}
+  \label{fig:result}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{router.png}
+  \caption{使用したルータ(Aterm WX3000HP)}
+  \label{fig:result}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\linewidth]{NC.png}
+  \caption{NCフライス盤}
+  \label{fig:result}
+\end{figure}
 
 \newpage
 \section{実験環境}
@@ -266,6 +270,8 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
   \end{tabular}
 \end{table}
 \section{実験条件}
+
+\section{評価方法}
 
 \chapter{送受信機の配置の違いによる評価}
 
