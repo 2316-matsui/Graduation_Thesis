@@ -244,30 +244,33 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
   \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\linewidth]{AtomS3.png}
-  \caption{AtomS3}
-  \label{fig:result}
+\begin{figure}[h]
+\centering
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{AtomS3.png}
+    \caption{AtomS3}
+    \label{fig:a}
+\end{minipage}
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{esp32s3.png}
+    \caption{ESP32S3}
+    \label{fig:b}
+\end{minipage}
 \end{figure}
+
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\linewidth]{esp32s3.png}
-  \caption{esp32s3}
-  \label{fig:result}
-\end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\linewidth]{router.png}
+  \includegraphics[width=0.3\linewidth]{router.png}
   \caption{使用したルータ(Aterm WX3000HP)}
   \label{fig:result}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\linewidth]{NC.png}
+  \includegraphics[width=0.4\linewidth]{NC.png}
   \caption{NCフライス盤}
   \label{fig:result}
 \end{figure}
@@ -308,7 +311,7 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 送受信機の組み合わせ（6通り）と距離条件（3通り）で測定した。条件の詳細は第四章に示した通りである。
 測定した条件と測定日を表\ref{tab:exp1}に示す。
 ルータ送信機の条件は、ルータ→AtomS3の各距離条件を3回ずつ測定した。
-ここでは、そのうち1回目の測定（6月）を実験1の結果として用い、2回目・3回目は実験3で用いる。
+ここでは、そのうち1回目の測定を実験1の結果として用い、2回目・3回目は実験3で用いる。
 いずれの条件でも、ルータ送信機はch1、マイコン送信機はch11を使用した。
 
 \begin{table}[htbp]
@@ -320,6 +323,7 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
     送信機 & 受信機 & near-near & far-near & far-far \\
     \midrule
     ルータ & AtomS3 & 6/18 & 6/22 & 6/29 \\
+    ルータ & アンテナ付きESP32S3 & 7/9 & 7/10 & 7/11 \\
     AtomS3 & AtomS3 & 6/30 & 6/30 & 7/3 \\
     アンテナ付きESP32S3 & アンテナ付きESP32S3 & 7/6 & 7/6 & 7/7 \\
     AtomS3 & アンテナ付きESP32S3 & 7/14 & 7/16 & 7/20 \\
@@ -329,10 +333,10 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 \end{table}
 
 \section{実験方法}
-表\ref{tab:exp1}の15条件それぞれについて、第4章の手順で0、3000、6000、9000\,rpmのCSIを各500ファイル取得した。
+表\ref{tab:exp1}の18条件それぞれについて、第4章の手順で0、3000、6000、9000\,rpmでそれぞれ500ファイルずつ取得した。
 条件ごとに、第4.5節の方法で学習用・検証用・テスト用にデータを分割し、XGBoostで4クラスの分類を行った。
 学習とテストには同じ条件（同じ日・同じ配置）のデータを用い、条件どうしでデータを混ぜることはしない。
-得られた正解率とマクロ平均F1値を、次の3つの観点で比較した。
+得られた正解率を、次の3つの観点で比較した。
 \begin{itemize}
   \item 送信機の違い：受信機と距離条件をそろえ、ルータ、AtomS3、アンテナ付きESP32S3を比べる。
   \item 受信機の違い：送信機と距離条件をそろえ、AtomS3とアンテナ付きESP32S3を比べる。
@@ -340,17 +344,47 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 \end{itemize}
 また、ルータ送信機とマイコン送信機ではパケットの到着間隔が異なるため、各条件の受信レート（1秒あたりに受信できたパケット数）と、パケット到着間隔のばらつきも求め、精度との関係を調べた。
 
-\section{実験条件}
-送受信機の組み合わせ（6通り）と距離条件（3通り）で測定した。条件の詳細は第四章に示した通りである。
-
 \chapter{実験2：チャネルを入れ替えた検証}
 \section{目的}
 実験1では、ルータ送信機はch1、マイコン送信機はch11を使用していた。
 そのため、送信機の違いによる精度差に、チャネルの違いが混ざっている可能性がある。
-チャネルを入れ替えて、送信機の違いによる影響だけを取り出す。
+実験2ではチャネルを入れ替えて、送信機の違いによる影響だけを取り出すことを目標とした。
 
 \section{実験条件}
 ルータをch11、マイコンをch1に切り替え、ほかは実験1と同じ条件で測定した。
+距離条件は、送信機を遠く、受信機を近くに置くfar-nearに固定した。
+測定した条件と測定日を表\ref{tab:exp2}に示す。
+比較のため、元のチャネル（ルータch1、AtomS3 ch11）でも改めて測定した。
+
+\begin{table}[htbp]
+  \centering
+  \caption{実験2の測定条件と測定日（距離条件はすべてfar-near）}
+  \label{tab:exp2}
+  \begin{tabular}{l l c l}
+    \toprule
+    送信機 & 受信機 & チャネル & 測定日 \\
+    \midrule
+    ルータ & AtomS3 & ch11 & 9/7, 9/8, 9/10, 10/1 \\
+    AtomS3 & AtomS3 & ch1 & 9/14, 9/17 \\
+    アンテナ付きESP32S3 & アンテナ付きESP32S3 & ch1 & 9/24 \\
+    アンテナ付きESP32S3 & AtomS3 & ch1 & 9/28 \\
+    \midrule
+    ルータ & AtomS3 & ch1（元のチャネル） & 10/4 \\
+    AtomS3 & AtomS3 & ch11（元のチャネル） & 10/28 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{実験方法}
+各条件について、実験1と同じく0、3000、6000、9000\,rpmでそれぞれ500ファイルずつ取得し、同じ条件内で学習・テストを行った。
+分割の方法とXGBoostの設定は実験1と同じである。
+次の2点を比較することで、精度の差がチャネルによるものか、送信機によるものかを判断した。
+\begin{itemize}
+  \item 同じ送信機で、チャネルを入れ替える前（実験1）と後（実験2）の精度を比べる。
+        チャネルの影響が大きければ、入れ替えによって精度が変わる。
+  \item 同じチャネルで、ルータ送信機とマイコン送信機の精度を比べる。
+        送信機の影響が大きければ、チャネルをそろえても精度の差が残る。
+\end{itemize}
 
 \chapter{実験3：複数日データの評価}
 \section{目的}
