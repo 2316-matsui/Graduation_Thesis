@@ -121,9 +121,9 @@ CSIの取得には、Intel5300用のCSI Tool、Atheros CSI Toolなどのツー�
 \section{本論文の構成}
 本論文の構成は以下のとおりである。
 第二章ではCSIを用いたWi-Fiセンシングの概要について述べる。
-第三章では今回行った実験の目的と環境、手法について述べる。
-第四章では送受信機の配置の違いによる評価について述べる。
-第五章では複数日にわたって取得された同じ条件での測定結果に対する評価について述べる。
+第三章では機器ごとの具体的なCSIの取得方法について述べる。
+第四章では今回行ったすべての実験における共通の条件について述べる。
+第五章では
 第六章では今回行った実験における予備評価について述べる。
 第七章では今回行った実験に対する考察を述べる。
 \chapter{CSIを用いたWi-Fiセンシングの概要}
@@ -269,17 +269,42 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 \end{figure}
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.4\linewidth]{NC.png}
-  \caption{NCフライス盤}
-  \label{fig:result}
+\centering
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{NC.png}
+    \caption{NCフライス盤}
+    \label{fig:c}
+\end{minipage}
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{k-21.png}
+    \caption{HOZAN k-21}
+    \label{fig:d}
+\end{minipage}
 \end{figure}
+
 
 \newpage
 \section{実験環境}
 \subsection{実験室}
 実験1〜3は、2214ものづくり工房で行った。部屋の大きさは4.3m×8.7mである。
-実験4は、ものづくり工房より広い部屋で行った。
+実験4は、ものづくり工房より広い部屋(2228実験室)で行った。部屋の大きさは19.2m×10.7mである。
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{2214.png}
+    \caption{2214ものづくり工房}
+    \label{fig:e}
+\end{minipage}
+\begin{minipage}[b]{0.49\columnwidth}
+    \centering
+    \includegraphics[width=0.8\columnwidth]{2228.png}
+    \caption{2228実験室}
+    \label{fig:f}
+\end{minipage}
+\end{figure}
 \subsection{送受信機の配置}
 送受信機は、NCフライス盤を結ぶ直線上に、送受信機間に直接的な障害物がないように配置した。
 距離条件は次の3種類である。
@@ -310,8 +335,6 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 \section{実験条件}
 送受信機の組み合わせ（6通り）と距離条件（3通り）で測定した。条件の詳細は第四章に示した通りである。
 測定した条件と測定日を表\ref{tab:exp1}に示す。
-ルータ送信機の条件は、ルータ→AtomS3の各距離条件を3回ずつ測定した。
-ここでは、そのうち1回目の測定を実験1の結果として用い、2回目・3回目は実験3で用いる。
 いずれの条件でも、ルータ送信機はch1、マイコン送信機はch11を使用した。
 
 \begin{table}[htbp]
@@ -334,8 +357,8 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 
 \section{実験方法}
 表\ref{tab:exp1}の18条件それぞれについて、第4章の手順で0、3000、6000、9000\,rpmでそれぞれ500ファイルずつ取得した。
-条件ごとに、第4.5節の方法で学習用・検証用・テスト用にデータを分割し、XGBoostで4クラスの分類を行った。
-学習とテストには同じ条件（同じ日・同じ配置）のデータを用い、条件どうしでデータを混ぜることはしない。
+条件ごとに、訓練用・評価用にデータを分割し、XGBoostで4クラスの分類を行った。
+学習とテストには同じ条件（同じ日・同じ配置）のデータを用い、条件どうしでデータを混ぜることはしていない。
 得られた正解率を、次の3つの観点で比較した。
 \begin{itemize}
   \item 送信機の違い：受信機と距離条件をそろえ、ルータ、AtomS3、アンテナ付きESP32S3を比べる。
@@ -369,8 +392,8 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
     アンテナ付きESP32S3 & アンテナ付きESP32S3 & ch1 & 9/24 \\
     アンテナ付きESP32S3 & AtomS3 & ch1 & 9/28 \\
     \midrule
-    ルータ & AtomS3 & ch1（元のチャネル） & 10/4 \\
-    AtomS3 & AtomS3 & ch11（元のチャネル） & 10/28 \\
+    ルータ & AtomS3 & ch1 & 10/4 \\
+    AtomS3 & AtomS3 & ch11 & 10/28 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -391,7 +414,6 @@ ESP32系マイコンは、CSI取得ツールesp-csiを用いて、受信機と�
 同一日に取得したデータで評価した精度が、日による環境の違いに依存していないかを確認する。
 
 \section{実験条件}
-3日にわたり、1日あたり0、3000、6000、9000\,rpmを1回ずつ測定した。
 
 \chapter{実験4：別部屋・別測定対象での検証}
 \chapter{考察}
@@ -424,6 +446,9 @@ Data in Brief, Vol.57, 111101 (2024).
 Z. Zhao, T. Chen, F. Meng, H. Li, X. Li, and G. Zhu, ``Finding the missing data: A BERT-inspired approach against package loss in wireless sensing,''
 Proc. IEEE INFOCOM 2024 Workshops (INFOCOM WKSHPS), pp.1--6 (2024).
 \bibitem{OFDM}伊丹誠, わかりやすいOFDM技術, オーム社,2005
+\bibitem{espcsi}
+Espressif Systems, ``ESP-CSI,'' GitHub.
+\url{https://github.com/espressif/esp-csi} 
 
 \end{thebibliography}
 \end{document}
